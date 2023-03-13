@@ -59,4 +59,3 @@ while (true)
         tools.WritelineColor(ConsoleColor.Red, "\tNie prawidłowy wybór.");
     }
 }
-
