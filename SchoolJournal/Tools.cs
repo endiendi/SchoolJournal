@@ -198,7 +198,7 @@
                 Console.WriteLine("Operacja nie powiodła się: {0}", e.ToString());
             }
         }
-        public int DługoscBelkiMenu(string tekst)
+        public int MenuBeamLength(string tekst)
         {
             int fillInSpaceR = 50;
             string menuTekst = string.Empty;
@@ -210,7 +210,6 @@
                     fillInSpaceR = menuTekst.Length + 3;
                 }
             }
-
             return fillInSpaceR;
         }
 

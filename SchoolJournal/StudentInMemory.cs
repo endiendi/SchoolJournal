@@ -1,4 +1,6 @@
-﻿namespace SchoolJournal
+﻿using System;
+
+namespace SchoolJournal
 {
     public class StudentInMemory : SchoolJournalBase
     {
@@ -121,11 +123,13 @@
         public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
-
-            foreach (var grade in grades)
+            var index = 0;
+            do
             {
-                statistics.AddGrade(grade);
+                statistics.AddGrade(this.grades[index]);
+                index++;
             }
+            while (index < this.grades.Count);
             return statistics;
         }
         private void Eventa(float grade)

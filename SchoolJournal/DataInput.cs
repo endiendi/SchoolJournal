@@ -2,6 +2,7 @@
 {
     public class DataInput : Tools
     {
+        private const string folder = "SchoolJournal";
         public DataInput(string studentName, string surNameStude, string subject)
         {
             this.StudentName = studentName;
@@ -86,15 +87,16 @@
                 Console.Write($"\tPodaj ocenę ucznia: ");
                 var imput = Console.ReadLine();
                 Console.Clear();
-                if (imput.ToUpper() == "Q")
+                if (imput.ToUpper() == "Q" || imput.ToUpper()=="")
                 {
                     break;
                 }
                 showScreen.SelectionMessage(studentName, surNameStude, subject);
                 showScreen.AdditionalHeader();
+
                 try
                 {
-                    student.AddGrade(imput);
+                    student.AddGrade(imput);     
                 }
                 catch (Exception ex)
                 {

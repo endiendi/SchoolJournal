@@ -161,7 +161,7 @@
         public void MenuQ()
         {
             Console.BackgroundColor = ConsoleColor.Cyan;
-            WritelineColor(ConsoleColor.Black, $"\t   Wybierz [Q] aby wrócić. ".PadRight(43, ' '));
+            WritelineColor(ConsoleColor.Black, $"\t   Wybierz [Q] aby wrócić. ".PadRight(44, ' '));
             Console.ResetColor();
             Console.WriteLine($"\t\n");
         }
