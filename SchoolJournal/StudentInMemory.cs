@@ -24,7 +24,10 @@ namespace SchoolJournal
             if (grade >= -0.5 && grade <= 6.5)
             {
                 this.grades.Add(grade);
-                Eventa(grade);
+                if (grade < 3)
+                {
+                    Eventa(grade);
+                }
             }
             else
             {
@@ -122,16 +125,16 @@ namespace SchoolJournal
         }
         public override Statistics GetStatistics()
         {
+
             var statistics = new Statistics();
-            var index = 0;
-            do
             {
-                statistics.AddGrade(this.grades[index]);
-                index++;
+                foreach (var gradr in this.grades)
+                {
+                    statistics.AddGrade(gradr);
+                }
             }
-            while (index < this.grades.Count);
-            return statistics;
-        }
+            return statistics;     
+    }
         private void Eventa(float grade)
         {
             if (GradeAdded != null)

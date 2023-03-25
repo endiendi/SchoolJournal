@@ -5,7 +5,9 @@
         public override event GradeAddedDelegate GradeAdded;
         private List<float> grades = new List<float>();
         private string fileName = "grades.txt";
-        private const string folder = "SchoolJournal";
+        public const string folder = "SchoolJournal";
+        public const string fileNameP = @$"{folder}\przedmioty.txt";
+        public const string fileNameU = @$"{folder}\uczniowie.txt";
         public StudentInFile(string name, string surname, string schoolsubject)
             : base(name, surname, schoolsubject)
         {
@@ -23,7 +25,10 @@
                 if (grade >= -0.5 && grade <= 6.5)
                 {
                     SaveGradeFile(grade, fileName);
-                    Eventa(grade);
+                    if (grade < 3)
+                    {
+                        Eventa(grade);
+                    }
                 }
                 else
                 {
@@ -133,8 +138,6 @@
         }
         private List<float> ReadGradesFromFile(string fileNameS)
         {
-            var tools = new Tools();
-            tools.Folder($"{folder}");
             var grades = new List<float>();
             if (File.Exists($"{fileNameS}"))
             {
@@ -161,8 +164,7 @@
         }
         private void SaveGradeFile(float grade, string fileNameS)
         {
-            var tools = new Tools();
-            tools.Folder($"{folder}");
+            Tools.Folder($"{folder}");
             using (var writer = File.AppendText($"{fileNameS}"))
             {
                 writer.WriteLine(grade);
