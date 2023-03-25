@@ -18,7 +18,7 @@ namespace SchoolJournal
                 }
                 else
                 {
-                tools.WritelineColor(ConsoleColor.Green, $"\t{subject} średnia z ocen - {statistics.AverageLetter} - {statistics.Average:N1}");
+                    tools.WritelineColor(ConsoleColor.Green, $"\t{subject} średnia z ocen - {statistics.AverageLetter} - {statistics.Average:N1}");
                 }
             }
             else
@@ -39,7 +39,7 @@ namespace SchoolJournal
                 }
                 else
                 {
-                tools.WritelineColor(ConsoleColor.Green, $"\t{studentName} {surNameStude} średnia z ocen - {statistics.AverageLetter} - {statistics.Average:N1}");
+                    tools.WritelineColor(ConsoleColor.Green, $"\t{studentName} {surNameStude} średnia z ocen - {statistics.AverageLetter} - {statistics.Average:N1}");
                 }
             }
             else
@@ -61,7 +61,6 @@ namespace SchoolJournal
                                                          $"\tŚrednia: {statistics.Average:N1}\n" +
                                                          $"\tMax: {statistics.Max:N1}\n" +
                                                          $"\tMin: {statistics.Min:N1}\n");
-                //Console.WriteLine("TEST");
                 tools.WritelineColorChoice("Wciśnij [Enter] aby zakończyć podsumowanie.");
             }
             else
