@@ -18,4 +18,3 @@ namespace SchoolJournal
         Statistics GetStatistics();
     }
 }
-

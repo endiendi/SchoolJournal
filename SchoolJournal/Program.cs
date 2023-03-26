@@ -7,6 +7,3 @@ var activeMenuPosition = 0;
 Console.Title = "Dziennik szkolny.";
 var menuApp = new MenuApp(activeMenuPosition, studentName, surNameStude, subject);
 menuApp.StartMenu();
-
-
-
