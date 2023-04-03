@@ -289,7 +289,7 @@
                     student = new StudentInFile(student.Name, student.SurName, result);
                     ViewTheStudentsAverageAcrossAllSubjects(student, result);
                 }
-                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] aby zakończyć podsumowanie. ");
                 Console.ReadLine();
             }
             else
@@ -327,7 +327,7 @@
                     var student = new StudentInFile(studentNameWkp, surNameStudeWkp, Subject);
                     ViewTheStudentsAverageAcrossAllStudent(student);
                 }
-                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] aby zakończyć podsumowanie. ");
                 Console.ReadLine();
             }
             else
@@ -398,7 +398,7 @@
                 ColorForHighAndLowRatings(ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Green, statistics.Average);
                 Screen.WritelineColor(ConsoleColor.Green, $"\tMax: {statistics.Max:N1}\n" +
                 $"\tMin: {statistics.Min:N1}\n");
-                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] aby zakończyć podsumowanie. ");
             }
             else
             {

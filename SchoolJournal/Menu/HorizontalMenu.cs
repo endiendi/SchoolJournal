@@ -43,7 +43,7 @@
                 }
                 i++;
             }
-            Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 9, "\n\t Wybór strzałlki < >  [ESC] powrót. ");
+            Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 9, "\n\t Wybór strzałlki < > [Enter] zatwierdza wybór, [ESC] powrót. ");
         }
 
         public void SelectingOptions()
