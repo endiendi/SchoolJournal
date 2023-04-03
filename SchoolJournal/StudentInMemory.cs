@@ -18,21 +18,6 @@
 
         public new string Subject { get; private set; }
 
-        public override void AddGrade(double grade)
-        {
-            this.AddGrade((float)grade);
-        }
-
-        public override void AddGrade(long grade)
-        {
-            this.AddGrade((float)grade);
-        }
-
-        public override void AddGrade(decimal grade)
-        {
-            this.AddGrade((float)grade);
-        }
-
         public override void AddGrade(float grade)
         {
             if (grade >= -0.5 && grade <= 6.5)

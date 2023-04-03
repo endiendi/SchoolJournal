@@ -26,11 +26,20 @@
 
         public abstract void AddGrade(float grade);
 
-        public abstract void AddGrade(double grade);
+        public void AddGrade(double grade)
+        {
+            this.AddGrade((float)grade);
+        }
 
-        public abstract void AddGrade(long grade);
+        public void AddGrade(long grade)
+        {
+            this.AddGrade((float)grade);
+        }
 
-        public abstract void AddGrade(decimal grade);
+        public void AddGrade(decimal grade)
+        {
+            this.AddGrade((float)grade);
+        }
 
         public void AddGrade(string grade)
         {

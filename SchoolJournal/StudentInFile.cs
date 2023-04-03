@@ -37,21 +37,6 @@
             }
         }
 
-        public override void AddGrade(double grade)
-        {
-            SaveGradeFile((float)grade, fileName);
-        }
-
-        public override void AddGrade(long grade)
-        {
-            SaveGradeFile((float)grade, fileName);
-        }
-
-        public override void AddGrade(decimal grade)
-        {
-            SaveGradeFile((float)grade, fileName);
-        }
-
         public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
