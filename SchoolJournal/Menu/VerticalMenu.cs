@@ -7,13 +7,13 @@
             this.SelectTablesMenu = selectTablesMenu;
             this.ActiveMenuPosition = activeMenuPosition;
         }
+
         public List<string> SelectTablesMenu { get; private set; }
         public int ActiveMenuPosition { get; private set; }
 
         public void MenuShow()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.Clear();
+            Screen.CleanScreen();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(Screen.initialMessagePU);
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -26,20 +26,18 @@
                     Console.BackgroundColor = ConsoleColor.Cyan;
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("\t{0,-25}", result);
-                    Console.BackgroundColor = ConsoleColor.Gray;
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.WriteLine("\t{0,-25}", result);
-                    Console.BackgroundColor = ConsoleColor.Gray;
                 }
                 i++;
             }
             Console.BackgroundColor = ConsoleColor.DarkGray;
         }
+
         public void SelectingOptions()
         {
             Console.CursorVisible = false;
@@ -85,7 +83,6 @@
                     this.ActiveMenuPosition = 3;
                     MenuShow();
                 }
-
             }
             while (true);
         }

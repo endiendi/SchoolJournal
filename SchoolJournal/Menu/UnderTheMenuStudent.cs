@@ -6,61 +6,70 @@
         {
             this.Student = student;
         }
+
         public string Student { get; private set; }
-        private List<string> selectTablesMenu = new List<string> {" Wybierz ucznia.",
-                                                                  " Dodaj ucznia.",
-                                                                  " Usuń ucznia." ,
-                                                                  " [ESC] wróć do menu."};
-        private List<string> listOfFromTheFile = new List<string>();
+
+        private readonly List<string> selectTablesMenu = new()
+        {
+                                                " Wybierz ucznia.",
+                                                " Dodaj ucznia.",
+                                                " Usuń ucznia." ,
+                                                " [ESC] wróć do menu."};
+
+        private List<string> listOfFromTheFile = new();
+
         private int activeMenuPosition;
+
         public void StartMenuStudent()
         {
             Console.Title = "Dziennik szkolny.";
             Console.CursorVisible = false;
-
             activeMenuPosition = 0;
-            var oldX = Console.CursorLeft;
-            var oldY = Console.CursorTop;
-            Console.SetCursorPosition(oldX, oldY + 8);
-            var tools = new Tools();
-            tools.WritelineColorChoice("Wybierz [Q] lub [Enter] aby zakończyć wprowadzanie i wyświetlić podsumowanie.");
-            Console.SetCursorPosition(oldX, oldY);
-
             while (true)
             {
                 var verticalMenu = new VerticalMenu(activeMenuPosition, selectTablesMenu);
                 verticalMenu.MenuShow();
                 verticalMenu.SelectingOptions();
                 activeMenuPosition = verticalMenu.ActiveMenuPosition;
-                RunOptionsStudent();
+                StartOptionsStudent();
                 break;
             }
         }
-        private void RunOptionsStudent()
+
+        private void StartOptionsStudent()
         {
-            var tools = new Tools();
-            listOfFromTheFile = tools.SortByTurning(tools.ReadFromTheFilesaj(StudentInFile.fileNameU));
+            listOfFromTheFile = Tools.SortBbyLastNname(Tools.ReadingWithFiles(StudentInFile.fileNameU));
             switch (activeMenuPosition)
             {
                 case 0:
-                    Console.Clear();
+                    Screen.CleanScreen();
                     var choiceHorizontal = new ChoiceHorizontal(Student, listOfFromTheFile);
                     choiceHorizontal.StartMenu(selectTablesMenu[activeMenuPosition]);
-                    Student = choiceHorizontal.Choice;
+                    if (choiceHorizontal.Choice != string.Empty)
+                    {
+                        Student = choiceHorizontal.Choice;
+                    }
                     break;
                 case 1:
-                    Console.Clear();
-                    var addU = new AddRemove(2, selectTablesMenu[activeMenuPosition], "Wpisz imię i nazwisko ucznia oddzielonąc spacją. ", "Dodano nowego ucznia: ", "Uczeń jest już w bazie dznych. ", StudentInFile.fileNameU);
-                    addU.SelectedAdd();
+                    Screen.CleanScreen();
+                    IntheEvaluationMenu.AddAStudentOrSubject(2,
+                        selectTablesMenu[activeMenuPosition],
+                        "Wpisz imię i nazwisko ucznia oddzielonąc spacją. ",
+                        "Dodano nowego ucznia: ",
+                        "Uczeń jest już w bazie danych. ",
+                        StudentInFile.fileNameU);
                     StartMenuStudent();
                     break;
                 case 2:
-                    Console.Clear();
+                    Screen.CleanScreen();
                     var choiceHorizontal1 = new ChoiceHorizontal(Student, listOfFromTheFile);
                     choiceHorizontal1.StartMenu(selectTablesMenu[activeMenuPosition]);
                     var toRemoval = choiceHorizontal1.Choice;
-                    AddRemove.SelectedDelete(toRemoval, StudentInFile.fileNameU);
-                    Student = string.Empty;
+                    if (Screen.WhetherDelete(toRemoval) == true)
+                    {
+                        IntheEvaluationMenu.RemoveTheValueFromTheFile(toRemoval, StudentInFile.fileNameU);
+                        Student = string.Empty;
+                    }
                     StartMenuStudent();
                     break;
                 case 3:
@@ -69,7 +78,6 @@
             }
             activeMenuPosition = 0;
         }
-
     }
 }
 

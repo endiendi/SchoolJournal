@@ -9,12 +9,17 @@
 
         public string Subject { get; private set; }
 
-        public List<string> selectTablesMenu = new List<string> {" Wybierz przedmiot.",
-                                                                 " Dodaj przedmiot.",
-                                                                 " Usuń przedmiot." ,
-                                                                 " [ESC] wróć do menu."};
-        private List<string> listOfFromTheFile = new List<string>();
+        private readonly List<string> selectTablesMenu = new()
+        {
+                                               " Wybierz przedmiot.",
+                                               " Dodaj przedmiot.",
+                                               " Usuń przedmiot." ,
+                                               " [ESC] wróć do menu."};
+
+        private List<string> listOfFromTheFile = new();
+
         private int activeMenuPosition;
+
         public void StartMenuSubjectn()
         {
             Console.Title = "Dziennik szkolny.";
@@ -26,26 +31,34 @@
                 verticalMenu.MenuShow();
                 verticalMenu.SelectingOptions();
                 activeMenuPosition = verticalMenu.ActiveMenuPosition;
-                RunOptionsSubject();
+                StartOptionsSubject();
                 break;
             }
         }
-        private void RunOptionsSubject()
+
+        private void StartOptionsSubject()
         {
-            var tools = new Tools();
-            listOfFromTheFile = tools.SortByTurning(tools.ReadFromTheFilesaj(StudentInFile.fileNameP));
+            listOfFromTheFile = Tools.SortBbyLastNname(Tools.ReadingWithFiles(StudentInFile.fileNameP));
             switch (activeMenuPosition)
             {
                 case 0:
                     Console.Clear();
                     var choiceHorizontal = new ChoiceHorizontal(Subject, listOfFromTheFile);
                     choiceHorizontal.StartMenu(selectTablesMenu[activeMenuPosition]);
-                    Subject = choiceHorizontal.Choice;
+                    if (choiceHorizontal.Choice != string.Empty)
+                    {
+                        Subject = choiceHorizontal.Choice;
+                    }
                     break;
                 case 1:
                     Console.Clear();
-                    var addRemove = new AddRemove(1, selectTablesMenu[activeMenuPosition], "Wpisz nazwę przedmiotu. ", "Dodano przedmiot nowy: ", "Przedmiot jest już w bazie dznych. ", StudentInFile.fileNameP);
-                    addRemove.SelectedAdd();
+                    IntheEvaluationMenu.AddAStudentOrSubject(
+                        1,
+                        selectTablesMenu[activeMenuPosition],
+                        "Wpisz nazwę przedmiotu. ",
+                        "Dodano przedmiot nowy: ",
+                        "Przedmiot jest już w bazie dznych. ",
+                        StudentInFile.fileNameP);
                     StartMenuSubjectn();
                     break;
                 case 2:
@@ -53,8 +66,11 @@
                     var choiceHorizontal1 = new ChoiceHorizontal(Subject, listOfFromTheFile);
                     choiceHorizontal1.StartMenu(selectTablesMenu[activeMenuPosition]);
                     var toRemoval = choiceHorizontal1.Choice;
-                    AddRemove.SelectedDelete(toRemoval, StudentInFile.fileNameP);
-                    Subject = string.Empty;
+                    if (Screen.WhetherDelete(toRemoval) == true)
+                    {
+                        IntheEvaluationMenu.RemoveTheValueFromTheFile(toRemoval, StudentInFile.fileNameP);
+                        Subject = string.Empty;
+                    }
                     StartMenuSubjectn();
                     break;
                 case 3:
@@ -63,6 +79,5 @@
             }
             activeMenuPosition = 0;
         }
-
     }
 }

@@ -5,12 +5,14 @@
         public ChoiceHorizontal(string choice, List<string> listOfFromTheFile)
         {
             this.Choice = choice;
-            this.ListOfFromTheFile= listOfFromTheFile;
+            this.ListOfFromTheFile = listOfFromTheFile;
         }
+
         public string Choice { get; private set; }
         public List<string> ListOfFromTheFile { get; private set; }
 
         private int activeMenuPosition;
+
         public void StartMenu(string whereAmI)
         {
             Console.Title = "Dziennik szkolny.";
@@ -27,9 +29,10 @@
                 break;
             }
         }
+
         public static string CheckWhetherESC(string whatToCheck)
         {
-            var afterChecking = string.Empty;
+            string? afterChecking;
             if (whatToCheck == "ESC] wróć do menu.")
             {
                 afterChecking = string.Empty;

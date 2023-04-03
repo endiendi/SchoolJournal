@@ -9,16 +9,16 @@
             this.WhereAmIMeny = whereAmIMeny;
             this.SelectTablesMenu.Add($"ESC] wróć do menu.");
         }
+
         public List<string> SelectTablesMenu { get; private set; }
         public int ActiveMenuPosition { get; private set; }
         public string WhereAmIMeny { get; private set; }
+
         public void MenuShow()
         {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.Clear();
+            Screen.CleanScreen();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(Screen.initialMessagePU);
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine($"\t\t{WhereAmIMeny}");
             Console.WriteLine();
@@ -32,8 +32,6 @@
                     Console.Write("{0,-" + result.Length + "}", " [" + result + "] ");
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Write(" ");
-                    Console.BackgroundColor = ConsoleColor.Gray;
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                 }
                 else
                 {
@@ -42,19 +40,12 @@
                     Console.Write("{0,-" + result.Length + "}", " [" + result + "] ");
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Write(" ");
-                    Console.BackgroundColor = ConsoleColor.Gray;
                 }
                 i++;
             }
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.ForegroundColor = ConsoleColor.Black;
-            var oldX = Console.CursorLeft;
-            var oldY = Console.CursorTop;
-            var tools = new Tools();
-            Console.SetCursorPosition(oldX, oldY + 8);
-            tools.WritelineColorChoice(" Wybór strzałlki < >  [ESC] powrót.");
-            Console.SetCursorPosition(oldX, oldY);
+            Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 9, "\n\t Wybór strzałlki < >  [ESC] powrót. ");
         }
+
         public void SelectingOptions()
         {
             Console.CursorVisible = false;

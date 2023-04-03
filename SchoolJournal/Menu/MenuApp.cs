@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace SchoolJournal.Menu
+﻿namespace SchoolJournal.Menu
 {
     public class MenuApp
     {
@@ -10,27 +8,27 @@ namespace SchoolJournal.Menu
             this.SurNameStude = surNameStude;
             this.Subject = subject;
             this.ActiveMenuPosition = activeMenuPosition;
-
         }
+
         public string StudentName { get; private set; }
         public string SurNameStude { get; private set; }
         public string Subject { get; private set; }
         public int ActiveMenuPosition { get; private set; }
 
-        static string fileNameP = StudentInFile.fileNameP;
-        static string fileNameU = StudentInFile.fileNameU;
-        const string separator = " ";
+        private const string separator = " ";
 
+        private readonly List<string> selectTablesMenu = new()
+        {
+                                            " [U] Wybierz uczeń. ",
+                                            " [P] Wybierz przedmiot. " ,
+                                            " [O] Dodaj oceny dla ucznia z przedmiotu. ",
+                                            " [M] Dodaj oceny dla ucznia z przedmiotu symulacja bez zapisu do pliku.",
+                                            " [W] Podzumowanie ocen ucznia z przedmiotu.",
+                                            " [E] Podzumowanie ocen ucznia z wszystkich przedmiotu.",
+                                            " [R] Podsumowanie wszystkich ucznów z przedmiotu.",
+                                            " [C] Wyczyść dane.",
+                                            " [ESC] Wyjście"};
 
-        List<string> selectTablesMenu = new List<string>  {" [U] Wybierz uczeń. ",
-                                                         " [P] Wybierz przedmiot. " ,
-                                                         " [O] Dodaj oceny dla ucznia z przedmiotu. ",
-                                                         " [M] Dodaj oceny dla ucznia z przedmiotu symulacja bez zapisu do pliku.",
-                                                         " [W] Podzumowanie ocen ucznia z przedmiotu.",
-                                                         " [E] Podzumowanie ocen ucznia z wszystkich przedmiotu.",
-                                                         " [R] Podsumowanie wszystkich ucznów z przedmiotu.",
-                                                         " [C] Wyczyść dane.",
-                                                         " [ESC] Wyjście"};
         public void StartMenu()
         {
             Console.Title = "Dziennik szkolny.";
@@ -43,16 +41,14 @@ namespace SchoolJournal.Menu
                 RunOptions();
             }
         }
+
         public void MenuShow()
         {
             Console.CursorVisible = false;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.Clear();
+            Screen.CleanScreen();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(Screen.initialMessagePU);
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            var screen = new Screen();
-            screen.SelectionMessage(StudentName, SurNameStude, Subject);
+            Screen.StudentAndSubjectSelectionMessage(StudentName, SurNameStude, Subject);
             var i = 0;
             foreach (var result in selectTablesMenu)
             {
@@ -61,23 +57,19 @@ namespace SchoolJournal.Menu
                     Console.BackgroundColor = ConsoleColor.Cyan;
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("\t{0,-75}", result);
-                    Console.BackgroundColor = ConsoleColor.Gray;
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.WriteLine("\t{0,-75}", result);
-                    Console.BackgroundColor = ConsoleColor.Gray;
                 }
                 i++;
             }
-            Console.BackgroundColor = ConsoleColor.DarkGray;
         }
+
         private void SelectingOptions()
         {
-
             Console.CursorVisible = false;
             do
             {
@@ -96,7 +88,6 @@ namespace SchoolJournal.Menu
                 {
                     ActiveMenuPosition = selectTablesMenu.Count - 1;
                     break;
-
                 }
                 else if (key.Key == ConsoleKey.Enter)
                 {
@@ -142,46 +133,39 @@ namespace SchoolJournal.Menu
                     ActiveMenuPosition = 7;
                     MenuShow();
                 }
-
             }
             while (true);
         }
+
         private void RunOptions()
         {
-            var student1 = new StudentInFile(StudentName, SurNameStude, Subject);
+            var student = new StudentInFile(StudentName, SurNameStude, Subject);
 
             switch (ActiveMenuPosition)
             {
                 case 0:
-                    Console.Clear();
                     SelectionMenuS();
                     break;
                 case 1:
-                    Console.Clear();
                     SelectionMenuP();
                     break;
                 case 2:
-                    Console.Clear();
                     SelectionMenuOU();
                     break;
                 case 3:
-                    Console.Clear();
-                    SelectionMenuM(student1);
+                    SelectionMenuM(student);
                     break;
                 case 4:
-                    Console.Clear();
-                    SelectionMenuW(student1);
+                    SelectionMenuW(student);
                     break;
                 case 5:
-                    Console.Clear();
-                    SelectionMenuWUK(student1, fileNameP);
+                    SelectionMenuWUK(student);
                     break;
                 case 6:
-                    Console.Clear();
-                    SelectionMenuWKP(student1, fileNameU);
+                    SelectionMenuWKP();
                     break;
                 case 7:
-                    Console.Clear();
+                    Screen.CleanScreen();
                     StudentName = string.Empty;
                     SurNameStude = string.Empty;
                     Subject = string.Empty;
@@ -194,90 +178,94 @@ namespace SchoolJournal.Menu
                     break;
             }
         }
-        static void StudentInGradeAdded(object sender, EventArgs args, float grades)
+
+        private static void StudentInGradeAdded(object sender, EventArgs args, float grades)
         {
-            var tools = new Tools();
-            var oldX = Console.CursorLeft;
-            var oldY = Console.CursorTop;
-            Console.SetCursorPosition(oldX, oldY + 8);
-            tools.WritelineColor(ConsoleColor.Black, $"\tUczeń otrzymał ocenę poniżej 3. Powiadom rodziców o ocenie {grades}.\n");
-            Console.SetCursorPosition(oldX, oldY);
+            Screen.Announcement(ConsoleColor.DarkRed, ConsoleColor.DarkGray, 4, $"\n\tUczeń otrzymał ocenę poniżej 3. Powiadom rodziców o ocenie {grades}.\n");
         }
+
         public void SelectionMenuS()
         {
             string student = $"{StudentName} {SurNameStude}";
             var underTheMenuStudent = new UnderTheMenuStudent(student);
+            Screen.CleanScreen();
             underTheMenuStudent.StartMenuStudent();
             student = underTheMenuStudent.Student;
             string[] arrayStudent = student.Split(Screen.separator);
-            if (arrayStudent.Length > 1)
+            var studentName = string.Empty;
+            var surNameStude = string.Empty;
+            for (var i = 0; i < arrayStudent.Length; i++)
             {
-                StudentName = arrayStudent[0];
-                SurNameStude = arrayStudent[1];
+                if (i == 0)
+                {
+                    studentName = arrayStudent[i];
+                }
+                else if (i == arrayStudent.Length - 1)
+                {
+                    surNameStude = $"{surNameStude}{arrayStudent[i]}";
+                }
+                else
+                {
+                    surNameStude = $"{surNameStude}{arrayStudent[i]}{Screen.separator}";
+                }
             }
-            else
-            {
-                StudentName = string.Empty;
-                SurNameStude = string.Empty;
-            }
+            StudentName = studentName;
+            SurNameStude = surNameStude;
         }
+
         public void SelectionMenuP()
         {
             var underTheMenuSubject = new UnderTheMenuSubject(Subject);
+            Screen.CleanScreen();
             underTheMenuSubject.StartMenuSubjectn();
             Subject = underTheMenuSubject.Subject;
         }
+
         public void SelectionMenuOU()
         {
-            var intheEvaluationMenu = new IntheEvaluationMenu(ActiveMenuPosition, StudentName, SurNameStude, Subject);
+            var intheEvaluationMenu = new IntheEvaluationMenu(StudentName, SurNameStude, Subject);
             intheEvaluationMenu.StartMenuOcena();
         }
+
         public void SelectionMenuO(IStudent student)
         {
-            var dataInput = new AddRatings(StudentName, SurNameStude, Subject);
-            var tools = new Tools();
-            var screen = new Screen();
-            if (tools.CheckIsNameSurnamesubject(ActiveMenuPosition, StudentName, SurNameStude, Subject))
+            if (Tools.CheckIsNameSurnamesubject(student.Name, student.SurName, Subject))
             {
-                student = new StudentInFile(StudentName, SurNameStude, Subject);
+                student = new StudentInFile(student.Name, student.SurName, Subject);
                 student.GradeAdded += StudentInGradeAdded;
-                dataInput.EnterRatings(student, StudentName, SurNameStude, Subject);
-                screen.SummaryScreen(student, StudentName, SurNameStude, Subject);
+                EnterRatings(student);
+                Screen.DisplaysTheSummaryScreen(student, student.Name, student.SurName, Subject);
             }
             else
             {
                 Console.ReadKey();
             }
         }
+
         public void SelectionMenuM(IStudent student)
         {
-            var dataInput1 = new AddRatings(StudentName, SurNameStude, Subject);
-            var tools = new Tools();
-            var screen = new Screen();
-            if (tools.CheckIsNameSurnamesubject(ActiveMenuPosition, StudentName, SurNameStude, Subject))
+            if (Tools.CheckIsNameSurnamesubject(student.Name, student.SurName, Subject))
             {
-                student = new StudentInMemory(StudentName, SurNameStude, Subject);
+                Screen.CleanScreen();
+                student = new StudentInMemory(student.Name, student.SurName, Subject);
                 student.GradeAdded += StudentInGradeAdded;
-                dataInput1.EnterRatings(student, StudentName, SurNameStude, Subject);
-                screen.SummaryScreen(student, StudentName, SurNameStude, Subject);
+                EnterRatings(student);
+                Screen.DisplaysTheSummaryScreen(student, student.Name, student.SurName, Subject);
             }
             else
             {
                 Console.ReadKey();
             }
         }
+
         public void SelectionMenuW(IStudent student)
         {
-            var dataInput = new AddRatings(StudentName, SurNameStude, Subject);
-            var fileName = @$"{StudentInFile.folder}\{StudentName}_{SurNameStude}_{Subject}.txt";
-            var tools = new Tools();
-            var screen = new Screen();
-            if (tools.CheckIsNameSurnamesubject(ActiveMenuPosition, StudentName, SurNameStude, Subject))
+            if (Tools.CheckIsNameSurnamesubject(student.Name, student.SurName, Subject))
             {
-                Console.Clear();
-                student = new StudentInFile(StudentName, SurNameStude, Subject);
-                screen.SummaryOfTheHeadlines(StudentName, SurNameStude, Subject);
-                ViewSummaries.ViewStudentStatisticsForSubject(student, fileName);
+                Screen.CleanScreen();
+                student = new StudentInFile(student.Name, student.SurName, Subject);
+                Screen.DisplayHeaderSummary(student.Name, student.SurName, Subject);
+                ViewStudentStatisticsForSubject(student);
                 Console.ReadLine();
             }
             else
@@ -285,23 +273,23 @@ namespace SchoolJournal.Menu
                 Console.ReadKey();
             }
         }
-        public void SelectionMenuWUK(IStudent student, string fileNameP)
+
+        public static void SelectionMenuWUK(IStudent student)
         {
-            var tools = new Tools();
-            var screen = new Screen();
-            var dataInput = new AddRatings(StudentName, SurNameStude, Subject);
-            var readFromTheFile = tools.ReadFromTheFilesaj(fileNameP);
+            var fileName = @$"{StudentInFile.fileNameP}";
+            var readFromTheFile = Tools.ReadingWithFiles(fileName);
             readFromTheFile.Sort();
-            if (tools.CheckIsNameSurnamesubject(ActiveMenuPosition, StudentName, SurNameStude, "NULL"))
+            if (Tools.CheckIsNameSurnamesubject(student.Name, student.SurName, "NULL"))
             {
-                Console.Clear();
-                screen.SummaryOfTheHeadlines(StudentName, SurNameStude, "");
+                Screen.CleanScreen();
+                Screen.DisplayHeaderSummary(student.Name, student.SurName, "");
+                Screen.WritelineColor(ConsoleColor.DarkYellow, "\t\tŚrednia z ocen ucznia.\n");
                 foreach (var result in readFromTheFile)
                 {
-                    student = new StudentInFile(StudentName, SurNameStude, result);
-                    ViewSummaries.ViewTheStudentsAverageAcrossAllSubjects(student, StudentName, SurNameStude, result);
+                    student = new StudentInFile(student.Name, student.SurName, result);
+                    ViewTheStudentsAverageAcrossAllSubjects(student, result);
                 }
-                tools.WritelineColorChoice("Wciśnij [Enter] aby zakończyć podsumowanie.");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
                 Console.ReadLine();
             }
             else
@@ -309,20 +297,20 @@ namespace SchoolJournal.Menu
                 Console.ReadKey();
             }
         }
-        public void SelectionMenuWKP(IStudent student, string fileNameU)
+
+        public void SelectionMenuWKP()
         {
-            var dataInput = new AddRatings(StudentName, SurNameStude, Subject);
-            var tools = new Tools();
-            var screen = new Screen();
-            if (tools.CheckIsNameSurnamesubject(ActiveMenuPosition, "NULL", "NULL", Subject))
+            var fileName = @$"{StudentInFile.fileNameU}";
+            if (Tools.CheckIsNameSurnamesubject("NULL", "NULL", Subject))
             {
-                Console.Clear();
-                screen.SummaryOfTheHeadlines("", "", Subject);
-                var readFromTheFile = tools.ReadFromTheFilesaj(fileNameU);
-                tools.SortByTurning(readFromTheFile);
+                Screen.CleanScreen();
+                Screen.DisplayHeaderSummary("", "", Subject);
+                var readFromTheFile = Tools.ReadingWithFiles(fileName);
+                Tools.SortBbyLastNname(readFromTheFile);
                 var studentNameWkp = string.Empty;
                 var surNameStudeWkp = string.Empty;
-                foreach (var nameTogether in tools.SortByTurning(readFromTheFile))
+                Screen.WritelineColor(ConsoleColor.DarkYellow, "\t\tŚrednia z ocen uczniów z przedmiotu.\n");
+                foreach (var nameTogether in Tools.SortBbyLastNname(readFromTheFile))
                 {
                     string[] nameInTheTable = nameTogether.Split(separator);
                     for (int i = 0; i < nameInTheTable.Length; i++)
@@ -336,15 +324,194 @@ namespace SchoolJournal.Menu
                             surNameStudeWkp = nameInTheTable[i];
                         }
                     }
-                    student = new StudentInFile(studentNameWkp, surNameStudeWkp, Subject);
-                    ViewSummaries.ViewTheStudentsAverageAcrossAllStudent(student, studentNameWkp, surNameStudeWkp, Subject);
+                    var student = new StudentInFile(studentNameWkp, surNameStudeWkp, Subject);
+                    ViewTheStudentsAverageAcrossAllStudent(student);
                 }
-                tools.WritelineColorChoice("Wciśnij [Enter] aby zakończyć podsumowanie.");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
                 Console.ReadLine();
             }
             else
             {
                 Console.ReadKey();
+            }
+        }
+
+        public static void ViewTheStudentsAverageAcrossAllSubjects(IStudent student, string subject)
+        {
+            Console.CursorVisible = false;
+            string format = "\t{0,-15}{1,-5}{2,-5:N1}";
+            var statistics = student.GetStatistics();
+            if (statistics.Count != 0)
+            {
+                if (statistics.Average < 3)
+                {
+                    Screen.WritelineColor(ConsoleColor.DarkRed, string.Format(format, subject, statistics.AverageLetter, statistics.Average));
+                }
+                else
+                {
+                    Screen.WritelineColor(ConsoleColor.Green, string.Format(format, subject, statistics.AverageLetter, statistics.Average));
+                }
+            }
+            else
+            {
+                Screen.WritelineColor(ConsoleColor.Black, string.Format(format, subject, "", "Brak danych"));
+            }
+        }
+
+        public static void ViewTheStudentsAverageAcrossAllStudent(IStudent student)
+        {
+            Console.CursorVisible = false;
+            string format = "\t{0,-25}{1,-5}{2,-5:N1}";
+            var statistics = student.GetStatistics();
+            if (statistics.Count != 0)
+            {
+                if (statistics.Average < 3)
+                {
+                    Screen.WritelineColor(ConsoleColor.DarkRed, string.Format(format, $"{student.Name} {student.SurName}", statistics.AverageLetter, statistics.Average));
+                }
+                else
+                {
+                    Screen.WritelineColor(ConsoleColor.Green, string.Format(format, $"{student.Name} {student.SurName}", statistics.AverageLetter, statistics.Average));
+                }
+            }
+            else
+            {
+                Screen.WritelineColor(ConsoleColor.Black, string.Format(format, $"{student.Name} {student.SurName}", "Brak danych", ""));
+            }
+        }
+
+        public static void ViewStudentStatisticsForSubject(IStudent student)
+        {
+            Console.CursorVisible = false;
+            var statistics = student.GetStatistics();
+            if (statistics.Count != 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"\tOceny ucznia: ");
+                ChangeColorofLowRatings(ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Green, statistics.PointsCollected);
+                Screen.WritelineColor(ConsoleColor.Green, $"\n\tUczeń uzyskał {statistics.Count} ocen. Suma ocen to {statistics.Sum}.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"\tŚrednia ocena wyrażona literą: ");
+                ColorForHighAndLowRatings(ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Green, statistics.AverageLetter);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"\tŚrednia ocena wyrażona cyfrom: ");
+                ColorForHighAndLowRatings(ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Green, statistics.Average);
+                Screen.WritelineColor(ConsoleColor.Green, $"\tMax: {statistics.Max:N1}\n" +
+                $"\tMin: {statistics.Min:N1}\n");
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 3, "\n\t Wciśnij [Enter] lub dowolny znak aby zakończyć podsumowanie. ");
+            }
+            else
+            {
+                Screen.WritelineColor(ConsoleColor.Black, $"\tBrak danych\n");
+            }
+        }
+
+        public void EnterRatings(IStudent student)
+        {
+            Screen.CleanScreen();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(Screen.initialMessagePU);
+            Screen.StudentAndSubjectSelectionMessage(student.Name, student.SurName, Subject);
+            Screen.DisplaysTheSecondHeading();
+            while (true)
+            {
+                Screen.Announcement(ConsoleColor.DarkCyan, ConsoleColor.Cyan, 10, "\n\tWybierz [Q] lub [Enter] aby zakończyć wprowadzanie i wyświetlić podsumowanie.");
+                var statistics = student.GetStatistics();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"\tOceny ucznia: ");
+                ChangeColorofLowRatings(ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Green, statistics.PointsCollected);
+                Console.CursorVisible = true;
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write($"\n\n\tDodaj ocenę ucznia: ");
+                var imput = Console.ReadLine();
+                Console.Clear();
+                if (imput.ToUpper() == "Q" || imput == string.Empty)
+                {
+                    break;
+                }
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(Screen.initialMessagePU);
+                Screen.StudentAndSubjectSelectionMessage(student.Name, student.SurName, Subject);
+                Screen.DisplaysTheSecondHeading();
+                try
+                {
+                    student.AddGrade(imput);
+                }
+                catch (Exception ex)
+                {
+                    Screen.Announcement(ConsoleColor.DarkRed, ConsoleColor.DarkGray, 4, $"\n\tBłąd wyjątku! \n{ex.Message}");
+                }
+            }
+            Console.Clear();
+        }
+
+        public static void ChangeColorofLowRatings(ConsoleColor colorLow, ConsoleColor colorLowHigh, ConsoleColor colorHigh, List<float> grades)
+        {
+            if (grades != null)
+            {
+                foreach (var grade in grades)
+                {
+                    {
+                        if (grade < 3)
+                        {
+                            Console.ForegroundColor = colorLow;
+                            Console.Write($"{grade}");
+                            Console.ForegroundColor = colorHigh;
+                            Console.Write($"|");
+                        }
+                        else if (grade < 5)
+                        {
+                            Console.ForegroundColor = colorLowHigh;
+                            Console.Write($"{grade}");
+                            Console.ForegroundColor = colorLowHigh;
+                            Console.Write($"|");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = colorHigh;
+                            Console.Write($"{grade}|");
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ColorForHighAndLowRatings(ConsoleColor colorLow, ConsoleColor colorLowHigh, ConsoleColor colorHigh, float grades)
+        {
+            if (grades < 3)
+            {
+                Console.ForegroundColor = colorLow;
+                Console.Write($"{grades:N1}\n");
+            }
+            else if (grades < 5)
+            {
+                Console.ForegroundColor = colorLowHigh;
+                Console.Write($"{grades:N1}\n");
+            }
+            else
+            {
+                Console.ForegroundColor = colorHigh;
+                Console.Write($"{grades:N1}\n");
+            }
+        }
+
+        public static void ColorForHighAndLowRatings(ConsoleColor colorLow, ConsoleColor colorLowHigh, ConsoleColor colorHigh, string grades)
+        {
+            if (grades == "F" || grades == "E" || grades == "E+")
+            {
+                Console.ForegroundColor = colorLow;
+                Console.Write($"{grades}\n");
+            }
+            else if (grades == "D" || grades == "D+" || grades == "C" || grades == "C+")
+            {
+                Console.ForegroundColor = colorLowHigh;
+                Console.Write($"{grades:N1}\n");
+            }
+            else
+            {
+                Console.ForegroundColor = colorHigh;
+                Console.Write($"{grades}\n");
             }
         }
     }
