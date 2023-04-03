@@ -3,7 +3,7 @@ namespace SchoolJournal.Test
     public class SchoolJournalTests
     {
         [Test]
-        public void WhenInvokedToFetchStatisticsForAnEmptyValueIt_ShouldReturnAnAverageOfZero()
+        public void WhenCalledToRetrieveValueStats_ShouldReturnAverage()
         {
             //arrange
             var student = new StudentInMemory("Adam", "Kowalski", "Polski");
@@ -78,6 +78,5 @@ namespace SchoolJournal.Test
             //assert
             Assert.AreEqual(Math.Round(4.4f, 1), Math.Round(statistics.Average, 1));
         }
-
     }
 }
