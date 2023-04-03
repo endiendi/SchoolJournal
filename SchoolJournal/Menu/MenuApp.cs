@@ -11,8 +11,11 @@
         }
 
         public string StudentName { get; private set; }
+
         public string SurNameStude { get; private set; }
+
         public string Subject { get; private set; }
+
         public int ActiveMenuPosition { get; private set; }
 
         private const string separator = " ";

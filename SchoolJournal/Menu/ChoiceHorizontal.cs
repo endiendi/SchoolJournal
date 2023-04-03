@@ -9,6 +9,7 @@
         }
 
         public string Choice { get; private set; }
+
         public List<string> ListOfFromTheFile { get; private set; }
 
         private int activeMenuPosition;

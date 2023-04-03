@@ -10,7 +10,9 @@
         }
 
         public string StudentName { get; private set; }
+
         public string SurNameStude { get; private set; }
+
         public string Subject { get; private set; }
 
         private readonly List<string> selectTablesMenu = new()

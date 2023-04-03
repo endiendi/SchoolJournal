@@ -92,6 +92,7 @@ namespace SchoolJournal
             }
             return toRemove;
         }
+
         public static void CleanScreen()
         {
             Console.BackgroundColor = ConsoleColor.DarkGray;

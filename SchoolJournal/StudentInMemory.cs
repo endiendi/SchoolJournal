@@ -13,7 +13,9 @@
         }
 
         public new string Name { get; private set; }
+
         public new string SurName { get; private set; }
+
         public new string Subject { get; private set; }
 
         public override void AddGrade(double grade)

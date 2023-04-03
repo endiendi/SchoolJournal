@@ -3,6 +3,7 @@ namespace SchoolJournal.Test
     public class SchoolJournalTests
     {
         [Test]
+
         public void WhenCalledToRetrieveValueStats_ShouldReturnAverage()
         {
             //arrange
@@ -19,6 +20,7 @@ namespace SchoolJournal.Test
         }
 
         [Test]
+
         public void WhenGetStatisticsCalled_ShouldReturnCorrectMax()
         {
             //arrange
@@ -33,7 +35,9 @@ namespace SchoolJournal.Test
             //assert
             Assert.AreEqual(6, statistics.Max);
         }
+
         [Test]
+
         public void WhenGetStatisticsCalledLetters_ShouldReturnCorrectMax()
         {
             //arrange
@@ -48,7 +52,9 @@ namespace SchoolJournal.Test
             //assert
             Assert.AreEqual(6, statistics.Max);
         }
+
         [Test]
+
         public void WhenGetStatisticsCalled_ShouldReturnCorrectMin()
         {
             //arrange
@@ -63,7 +69,9 @@ namespace SchoolJournal.Test
             //assert
             Assert.AreEqual(2, statistics.Min);
         }
+
         [Test]
+
         public void WhenGetStatisticsCalled_ShouldReturnCorrectAverage()
         {
             var student = new StudentInMemory("Adam", "Kowalski", "polski");

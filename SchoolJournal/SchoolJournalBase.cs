@@ -19,7 +19,9 @@
         }
 
         public string Name { get; private set; }
+
         public string SurName { get; private set; }
+
         public string Subject { get; private set; }
 
         public abstract void AddGrade(float grade);

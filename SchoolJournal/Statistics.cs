@@ -3,9 +3,13 @@
     public class Statistics
     {
         public float Max { get; private set; }
+
         public float Min { get; private set; }
+
         public float Sum { get; private set; }
+
         public int Count { get; private set; }
+
         public List<float> PointsCollected { get; private set; } = new();
 
         public float Average

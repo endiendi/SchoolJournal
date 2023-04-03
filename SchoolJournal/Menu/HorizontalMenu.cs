@@ -11,7 +11,9 @@
         }
 
         public List<string> SelectTablesMenu { get; private set; }
+
         public int ActiveMenuPosition { get; private set; }
+
         public string WhereAmIMeny { get; private set; }
 
         public void MenuShow()
